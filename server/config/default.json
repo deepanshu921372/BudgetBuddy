@@ -1,0 +1,5 @@
+{
+    "mongoURI": "mongodb+srv://sharmadeepanshu1005:De251005@cluster0.c0konak.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    "jwtSecret": "your_jwt_secret",
+    "jwtExpire": "30d"
+  }
