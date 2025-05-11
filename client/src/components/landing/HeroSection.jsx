@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Button from "../ui/Button";
 import heroImage from "../../assets/images/hero.jpg";
+import { useAuth } from "../../hooks/useAuth";
 
 const HeroSection = () => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <section className="pt-20 sm:pt-24 md:pt-28 lg:pt-32 pb-12 sm:pb-16 md:pb-20 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,17 +32,17 @@ const HeroSection = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button
-                as={Link}
-                to="/signup"
+                as="link"
+                to={isAuthenticated ? "/dashboard" : "/signup"}
                 variant="primary"
                 size="lg"
                 className="w-full sm:w-auto px-6 sm:px-8 py-3 cursor-pointer bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300"
               >
-                Get Started - It's Free
+                {isAuthenticated ? "Let's Start" : "Get Started - It's Free"}
               </Button>
               
               <Button
-                as={Link}
+                as="link"
                 to="/features"
                 variant="outline"
                 size="lg"
