@@ -112,6 +112,19 @@ const MicButton = () => {
       navigate("/");
       return;
     }
+    if (text.includes("login")) {
+      speak("Okay, navigating to login page.");
+      setResponse("Okay, navigating to login page.");
+      navigate("/login");
+      return;
+    }
+    if (text.includes("signup")) {
+      speak("Okay, navigating to signup page.");
+      setResponse("Okay, navigating to signup page.");
+      navigate("/signup");
+      return;
+    }
+    
     if (text.includes("dashboard")) {
       speak("Okay, navigating to dashboard page.");
       setResponse("Okay, navigating to dashboard page.");
