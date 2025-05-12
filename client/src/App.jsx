@@ -22,6 +22,7 @@ import About from "./pages/About";
 import HelpCenter from "./pages/HelpCenter";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import MicButton from "./components/ui/MicButton";
 
 const App = () => {
   return (
@@ -122,6 +123,7 @@ const App = () => {
               pauseOnHover
               theme="light"
             />
+            <MicButton />
           </PersistentStateProvider>
         </Router>
       </TransactionProvider>
