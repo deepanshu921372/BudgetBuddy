@@ -17,4 +17,6 @@ services:
       - key: JWT_SECRET
         sync: false
       - key: JWT_EXPIRE
-        value: 30d 
+        value: 30d
+      - key: CLIENT_URL
+        value: https://budgetbuddy.vercel.app 

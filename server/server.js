@@ -1,11 +1,11 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const path = require('path');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
+const { cors } = require('./middleware/cors');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/api/users');
 const transactionRoutes = require('./routes/api/transactions');
@@ -20,14 +20,16 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(helmet());
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174'],
-  credentials: true
+app.use(helmet({
+  contentSecurityPolicy: false // Disabled for simplicity in development
 }));
+app.use(cors);
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Health check endpoint for Render.com
 app.get('/api/health', (req, res) => {
@@ -40,24 +42,24 @@ app.use('/api/users', userRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/categories', categoryRoutes);
 
+// Root API endpoint
+app.get('/api', (req, res) => {
+  res.json({
+    success: true,
+    message: 'BudgetBuddy API is running',
+    version: '1.0.0',
+    endpoints: {
+      auth: '/api/auth',
+      users: '/api/users',
+      transactions: '/api/transactions',
+      categories: '/api/categories',
+      health: '/api/health'
+    }
+  });
+});
+
 // Error handling middleware
 app.use(errorHandler);
-
-// Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
-  // Set static folder
-  app.use(express.static(path.join(__dirname, '../client/dist')));
-
-  // Any route that is not an API route should be handled by React
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'));
-  });
-} else {
-  // Simple route for development
-  app.get('/', (req, res) => {
-    res.send('API is running...');
-  });
-}
 
 const PORT = process.env.PORT || 5000;
 

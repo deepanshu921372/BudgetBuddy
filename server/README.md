@@ -1,6 +1,13 @@
 # BudgetBuddy API Server
 
-Backend server for the BudgetBuddy personal finance application, optimized for deployment on Render.com.
+Backend API server for the BudgetBuddy personal finance application, optimized for deployment on Render.com.
+
+## API-Only Mode
+
+This server is configured in API-only mode, which means:
+- It serves only the REST API endpoints, not the frontend
+- The frontend should be deployed separately (e.g., on Vercel, Netlify)
+- CORS is configured to allow requests from authorized origins
 
 ## Deployment on Render.com
 
@@ -32,6 +39,7 @@ Set these environment variables in the Render dashboard:
 - `MONGO_URI`: Your MongoDB connection string
 - `JWT_SECRET`: Your JWT secret key
 - `JWT_EXPIRE`: `30d` (or your preferred token expiration)
+- `CLIENT_URL`: URL where your frontend is deployed (e.g., `https://budgetbuddy.vercel.app`)
 
 ### Health Checks
 

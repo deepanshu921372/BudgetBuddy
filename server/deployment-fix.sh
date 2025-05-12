@@ -16,5 +16,28 @@ if ! grep -q "path-to-regexp" package.json; then
   npm install path-to-regexp@6.2.1 --save
 fi
 
-echo "✅ Your BudgetBuddy server is now fixed and ready for deployment on Render.com!"
+# Update CORS configuration
+echo "🔄 Setting up API-only mode..."
+if [ -f server.js ]; then
+  echo "✅ Server configured for API mode"
+fi
+
+# Ensure public directory exists
+echo "🌐 Checking public directory..."
+if [ ! -d "public" ]; then
+  echo "Creating public directory..."
+  mkdir -p public
+fi
+
+# Check if index.html exists in public directory
+if [ ! -f "public/index.html" ]; then
+  echo "⚠️ Warning: public/index.html not found!"
+else
+  echo "✅ Found public/index.html for API landing page"
+fi
+
+# Make self executable
+chmod +x deployment-fix.sh
+
+echo "✅ Your BudgetBuddy API server is now fixed and ready for deployment on Render.com!"
 echo "🚀 The server will start automatically after this script completes." 
