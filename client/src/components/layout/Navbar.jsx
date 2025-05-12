@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../hooks/useAuth";
 import Button from "../ui/Button";
 import logo from "../../assets/images/logo2.png";
-import logoText from "../../assets/images/logoText.png";
+import logoText from "../../assets/images/logotext.png";
 const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
