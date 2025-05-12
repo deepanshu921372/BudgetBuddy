@@ -80,6 +80,7 @@ const Modal = ({
                       </div>
                     </div>
                   )}
+                  {/* modal added */}
                   <div className="bg-white px-4 py-4 sm:px-6">
                     {children}
                   </div>
