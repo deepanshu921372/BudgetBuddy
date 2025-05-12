@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import logo from "../../assets/images/logo2.png";
 import logoText from "../../assets/images/logo.png";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Footer = () => {
   const { isAuthenticated } = useAuth();
@@ -12,6 +14,38 @@ const Footer = () => {
       top: 0,
       behavior: 'smooth'
     });
+  };
+
+  const handleNewsletterSubmit = async (event) => {
+    event.preventDefault();
+    const email = event.target[0].value;
+
+    const formData = {
+      name: 'Newsletter Subscriber',
+      email: email,
+      subject: 'Newsletter Subscription',
+      message: 'Please subscribe me to the newsletter.',
+    };
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'There was an error sending your subscription request.');
+      }
+
+      toast.success('Subscription request sent successfully!');
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error(error.message || 'There was an error sending your subscription request.');
+    }
   };
 
   return (
@@ -189,7 +223,7 @@ const Footer = () => {
             <p className="text-gray-600 mb-4">
               Subscribe to our newsletter for tips and updates.
             </p>
-            <form className="space-y-3">
+            <form className="space-y-3" onSubmit={handleNewsletterSubmit}>
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -212,6 +246,7 @@ const Footer = () => {
           </p>
         </div>
       </div>
+      <ToastContainer />
     </footer>
   );
 };
