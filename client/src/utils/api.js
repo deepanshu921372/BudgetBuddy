@@ -1,11 +1,8 @@
 import axios from "axios";
 
-const baseURL = import.meta.env.VITE_BASE_URL;
-
 // Create an instance of axios
 const api = axios.create({
-  // baseURL: "https://budgetbuddy-lgty.onrender.com/api",
-  baseURL: baseURL,
+  baseURL: "https://budgetbuddy-lgty.onrender.com/api",
   headers: {
     "Content-Type": "application/json"
   },
