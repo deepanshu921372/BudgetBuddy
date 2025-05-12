@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext, useRef } from "react";
 import api from "../utils/api";
 import { AuthContext } from "./AuthContext";
 
@@ -17,9 +17,10 @@ export const TransactionProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { isAuthenticated } = useContext(AuthContext);
+  const isFetching = useRef(false);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && !isFetching.current) {
       fetchTransactions();
     } else {
       setTransactions([]);
@@ -28,6 +29,8 @@ export const TransactionProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   const fetchTransactions = async () => {
+    if (isFetching.current) return;
+    isFetching.current = true;
     setIsLoading(true);
     try {
       const res = await api.get("/transactions");
@@ -38,6 +41,7 @@ export const TransactionProvider = ({ children }) => {
       console.error("Error fetching transactions:", err);
     } finally {
       setIsLoading(false);
+      isFetching.current = false;
     }
   };
 
