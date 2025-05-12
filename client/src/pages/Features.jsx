@@ -94,7 +94,7 @@ const Features = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { title: "Custom Categories", value: "Unlimited" },
-                { title: "Data Export", value: "CSV & PDF" },
+                { title: "Data Export", value: "CSV" },
                 { title: "Mobile Access", value: "iOS & Android" },
                 { title: "Cloud Backup", value: "Automatic" }
               ].map((item, index) => (

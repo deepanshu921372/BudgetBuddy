@@ -152,11 +152,8 @@ const TermsOfService = () => {
               If you have any questions about these Terms of Service, please contact us at:
             </p>
             <div className="mt-4">
-              <p className="text-gray-700 font-medium">BudgetBuddy, Inc.</p>
-              <p className="text-gray-600">123 Finance Street</p>
-              <p className="text-gray-600">San Francisco, CA 94105</p>
-              <p className="text-gray-600">Email: legal@budgetbuddy.com</p>
-              <p className="text-gray-600">Phone: (555) 123-4567</p>
+              <p className="text-gray-700 font-medium">BudgetBuddy</p>
+              <p className="text-gray-600">Email: budgettbuddy@gmail.com</p>
             </div>
           </motion.div>
         </div>
