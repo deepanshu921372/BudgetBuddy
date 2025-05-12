@@ -48,7 +48,7 @@ exports.getTransaction = async (req, res) => {
     }
 
     // Check if user owns the transaction
-    if (transaction.user.toString() !== req.user.id) {
+    if (transaction.userId.toString() !== req.user.id) {
       return res.status(401).json({ success: false, error: 'Not authorized to access this transaction' });
     }
 
@@ -135,7 +135,7 @@ exports.updateTransaction = async (req, res) => {
     }
 
     // Check if user owns the transaction
-    if (transaction.user.toString() !== req.user.id) {
+    if (transaction.userId.toString() !== req.user.id) {
       return res.status(401).json({ success: false, error: 'Not authorized to update this transaction' });
     }
 
@@ -182,7 +182,8 @@ exports.deleteTransaction = async (req, res) => {
       });
     }
 
-    await transaction.remove();
+    // Use deleteOne instead of remove which is deprecated
+    await Transaction.deleteOne({ _id: req.params.id });
 
     res.json({
       success: true,
@@ -202,7 +203,7 @@ exports.deleteTransaction = async (req, res) => {
 exports.getTransactionSummary = async (req, res) => {
   try {
     // Add query parameters for filtering
-    const query = { user: req.user.id };
+    const query = { userId: req.user.id };
 
     // Add date range filtering if provided
     if (req.query.startDate && req.query.endDate) {
@@ -250,7 +251,7 @@ exports.getTransactionSummary = async (req, res) => {
 exports.getTransactionsByCategory = async (req, res) => {
   try {
     // Add query parameters for filtering
-    const query = { user: req.user.id };
+    const query = { userId: req.user.id };
 
     // Add type filtering (default to expense)
     query.type = req.query.type || 'expense';
