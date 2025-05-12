@@ -161,11 +161,11 @@ const Settings = () => {
   };
 
   const currencies = [
-    { id: 'USD', name: 'US Dollar', symbol: '$' },
-    { id: 'EUR', name: 'Euro', symbol: '€' },
-    { id: 'GBP', name: 'British Pound', symbol: '£' },
+    // { id: 'USD', name: 'US Dollar', symbol: '$' },
+    // { id: 'EUR', name: 'Euro', symbol: '€' },
+    // { id: 'GBP', name: 'British Pound', symbol: '£' },
     { id: 'INR', name: 'Indian Rupee', symbol: '₹' },
-    { id: 'JPY', name: 'Japanese Yen', symbol: '¥' }
+    // { id: 'JPY', name: 'Japanese Yen', symbol: '¥' }
   ];
 
   const dateFormats = [

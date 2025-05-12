@@ -7,27 +7,30 @@ export const useTransactions = () => {
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isInitialFetch, setIsInitialFetch] = useState(true);
 
   const fetchTransactions = useCallback(async (filters = {}) => {
+    if (!localStorage.getItem("token")) {
+      setLoading(false);
+      return;
+    }
+    
     try {
       setLoading(true);
       const queryParams = new URLSearchParams(filters).toString();
       const response = await api.get(`/transactions?${queryParams}`);
-      setTransactions(response.data.data);
+      setTransactions(response.data.data || []);
       setError(null);
     } catch (error) {
-      const errorMsg = error.response?.data?.error || 'Failed to fetch transactions';
-      setError(errorMsg);
-      toast.error(errorMsg, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
+      console.error("Transaction fetch error:", error);
+      if (!isInitialFetch) {
+        const errorMsg = error.response?.data?.error || 'Failed to fetch transactions';
+        setError(errorMsg);
+        toast.error(errorMsg);
+      }
     } finally {
       setLoading(false);
+      setIsInitialFetch(false);
     }
   }, []);
 
@@ -52,6 +55,18 @@ export const useTransactions = () => {
     } finally {
       setLoading(false);
     }
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      fetchTransactions();
+    } else {
+      setLoading(false);
+    }
+    
+    return () => {
+      // Cancel any pending requests here if needed
+    };
   }, []);
 
   const addTransaction = async (transactionData) => {
@@ -156,10 +171,6 @@ export const useTransactions = () => {
       { income: {}, expenses: {} }
     );
   }, [transactions]);
-
-  useEffect(() => {
-    fetchTransactions();
-  }, [fetchTransactions]);
 
   return {
     transactions,

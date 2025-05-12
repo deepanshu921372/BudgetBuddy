@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an instance of axios
 const api = axios.create({
-  baseURL: "https://budgetbuddy-lgty.onrender.com/api",
+  baseURL: import.meta.env.VITE_API_URL || "https://budgetbuddy-lgty.onrender.com/api",
   headers: {
     "Content-Type": "application/json"
   },
