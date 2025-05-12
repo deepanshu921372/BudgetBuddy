@@ -5,6 +5,7 @@ import Sidebar from "../components/layout/Sidebar";
 import Modal from "../components/common/Modal";
 import useStore from "../store/useStore";
 import { toast } from "react-toastify";
+import api from '../utils/api'; // Adjust the path as necessary
 
 const CategoryForm = ({ onSubmit, initialData = null, onClose }) => {
   const [formData, setFormData] = useState({
@@ -159,9 +160,26 @@ const Categories = () => {
     deleteCategory,
   } = useStore();
 
+  const fetchTransactions = async () => {
+    const token = localStorage.getItem("token");
+    
+    if (!token) {
+      console.log("User not logged in, skipping API call.");
+      return;
+    }
+
+    try {
+      const response = await api.get('/transactions');
+      // Handle the response
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
-  }, [fetchCategories]);
+    fetchTransactions();
+  }, [fetchCategories, fetchTransactions]);
 
   useEffect(() => {
     const handleResize = () => {
