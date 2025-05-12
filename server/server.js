@@ -10,6 +10,8 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/api/users');
 const transactionRoutes = require('./routes/api/transactions');
 const categoryRoutes = require('./routes/api/categories');
+const nodemailer = require('nodemailer');
+const bodyParser = require('body-parser');
 
 // Load environment variables
 dotenv.config();
@@ -55,6 +57,38 @@ app.get('/api', (req, res) => {
       categories: '/api/categories',
       health: '/api/health'
     }
+  });
+});
+
+app.post('/send-email', (req, res) => {
+  const { name, email, subject, message } = req.body;
+  
+  // Log to help with debugging
+  console.log('Received email request:', { name, email, subject });
+  
+  // Configure Nodemailer
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_APP_PASSWORD,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    replyTo: email,
+    to: 'budgettbuddy@gmail.com',
+    subject: `New Contact Form Submission: ${subject}`,
+    text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+      return res.status(500).json({ success: false, error: error.message });
+    }
+    res.status(200).json({ success: true, message: 'Email sent successfully' });
   });
 });
 
