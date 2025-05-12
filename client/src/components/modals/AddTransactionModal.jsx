@@ -30,6 +30,25 @@ const AddTransactionModal = ({ isOpen, onClose, onSubmit, initialData = null, mo
     }
   }, [initialData, isOpen]);
 
+  // Listen for voicebot field fill and submit events
+  useEffect(() => {
+    if (!isOpen) return;
+    const fillField = (e) => {
+      const { field, value } = e.detail || {};
+      if (!field) return;
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    };
+    const submitForm = () => {
+      document.getElementById('voice-add-transaction-form')?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+    };
+    window.addEventListener('fillAddTransactionField', fillField);
+    window.addEventListener('submitAddTransactionForm', submitForm);
+    return () => {
+      window.removeEventListener('fillAddTransactionField', fillField);
+      window.removeEventListener('submitAddTransactionForm', submitForm);
+    };
+  }, [isOpen]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
@@ -74,7 +93,7 @@ const AddTransactionModal = ({ isOpen, onClose, onSubmit, initialData = null, mo
                     </svg>
                   </button>
                 </div>
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form id="voice-add-transaction-form" onSubmit={handleSubmit} className="space-y-5">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Type

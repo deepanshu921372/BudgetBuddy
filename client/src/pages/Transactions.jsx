@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/layout/Sidebar";
 import { useTransactions } from "../hooks/useTransactions";
 import { usePersistentState } from "../context/PersistentStateContext";
-import AddTransactionModal from "../components/modals/AddTransactionModal";
 import { formatCurrency } from "../utils/formatters";
 import * as XLSX from "xlsx";
 
@@ -14,7 +13,6 @@ const Transactions = () => {
     return savedState ? JSON.parse(savedState) : true;
   });
   const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -144,6 +142,12 @@ const Transactions = () => {
     setDetailsModalOpen(true);
   };
 
+  useEffect(() => {
+    const downloadListener = () => handleDownloadExcel();
+    window.addEventListener("downloadTransactions", downloadListener);
+    return () => window.removeEventListener("downloadTransactions", downloadListener);
+  }, [transactions, persistentState]);
+
   return (
     <div className="flex h-screen fixed inset-0 bg-transparent backdrop-blur-sm z-40 overflow-y-auto">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile} />
@@ -199,7 +203,6 @@ const Transactions = () => {
                   </button>
                 </div>
                 <button 
-                  onClick={() => setIsModalOpen(true)}
                   className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors duration-200 cursor-pointer transform hover:scale-105"
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -276,7 +279,6 @@ const Transactions = () => {
                 <h3 className="mt-2 text-sm font-medium text-gray-900">No transactions</h3>
                 <p className="mt-1 text-sm text-gray-500">Get started by creating a new transaction.</p>
                 <button
-                  onClick={() => setIsModalOpen(true)}
                   className="mt-4 inline-flex items-center px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors duration-200 cursor-pointer transform hover:scale-105"
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -349,12 +351,6 @@ const Transactions = () => {
         </main>
       </div>
 
-      <AddTransactionModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleAddTransaction}
-      />
-
       {/* Transaction Details Modal */}
       {detailsModalOpen && selectedTransaction && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -387,18 +383,6 @@ const Transactions = () => {
           </div>
         </div>
       )}
-
-      {/* Edit Transaction Modal */}
-      <AddTransactionModal
-        isOpen={editModalOpen}
-        onClose={() => setEditModalOpen(false)}
-        onSubmit={async (formData) => {
-          await updateTransaction(selectedTransaction._id, formData);
-          setEditModalOpen(false);
-        }}
-        initialData={selectedTransaction}
-        mode="edit"
-      />
     </div>
   );
 };

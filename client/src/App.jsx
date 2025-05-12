@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { TransactionProvider } from "./context/TransactionContext";
@@ -23,8 +23,29 @@ import HelpCenter from "./pages/HelpCenter";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import MicButton from "./components/ui/MicButton";
+import AddTransactionModal from "./components/modals/AddTransactionModal";
 
 const App = () => {
+  const [isGlobalAddModalOpen, setIsGlobalAddModalOpen] = useState(false);
+  const [addModalInitialData, setAddModalInitialData] = useState({});
+
+  useEffect(() => {
+    const openModal = (e) => {
+      if (e.detail && typeof e.detail === 'object') {
+        setAddModalInitialData(e.detail);
+      }
+      setIsGlobalAddModalOpen(true);
+    };
+    window.addEventListener("openAddTransactionModal", openModal);
+    return () => window.removeEventListener("openAddTransactionModal", openModal);
+  }, []);
+
+  const handleAddTransaction = (transactionData) => {
+    setIsGlobalAddModalOpen(false);
+    setAddModalInitialData({});
+    // Optionally, trigger a global event or use context to update transactions
+  };
+
   return (
     <AuthProvider>
       <TransactionProvider>
@@ -124,6 +145,12 @@ const App = () => {
               theme="light"
             />
             <MicButton />
+            <AddTransactionModal
+              isOpen={isGlobalAddModalOpen}
+              onClose={() => { setIsGlobalAddModalOpen(false); setAddModalInitialData({}); }}
+              onSubmit={handleAddTransaction}
+              initialData={addModalInitialData}
+            />
           </PersistentStateProvider>
         </Router>
       </TransactionProvider>

@@ -8,7 +8,6 @@ import DoughnutChart from "../components/dashboard/DoughnutChart";
 import LineChart from "../components/dashboard/LineChart";
 import ExpenseList from "../components/dashboard/ExpenseList";
 import RecentActivity from "../components/dashboard/RecentActivity";
-import AddTransactionModal from "../components/modals/AddTransactionModal";
 import Loader from "../components/ui/Loader";
 
 const Dashboard = () => {
@@ -19,7 +18,6 @@ const Dashboard = () => {
     return window.innerWidth >= 768;
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('sidebarOpen', JSON.stringify(sidebarOpen));
@@ -55,7 +53,6 @@ const Dashboard = () => {
 
   const handleAddTransaction = (transactionData) => {
     addTransaction(transactionData);
-    setIsModalOpen(false);
   };
 
   return (
@@ -188,12 +185,6 @@ const Dashboard = () => {
           </div>
         </main>
       </div>
-
-      <AddTransactionModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleAddTransaction}
-      />
     </div>
   );
 };

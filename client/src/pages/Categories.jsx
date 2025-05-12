@@ -11,7 +11,7 @@ const CategoryForm = ({ onSubmit, initialData = null, onClose }) => {
     name: initialData?.name || "",
     icon: initialData?.icon || "🏷️",
     color: initialData?.color || "bg-blue-100 text-blue-600",
-    type: initialData?.type || "expense"
+    type: initialData?.type || "expense",
   });
 
   const handleSubmit = (e) => {
@@ -30,32 +30,52 @@ const CategoryForm = ({ onSubmit, initialData = null, onClose }) => {
     { bg: "bg-orange-100", text: "text-orange-600" },
   ];
 
-  const icons = ["🏷️", "🛍️", "🚗", "🏠", "🍽️", "💊", "📚", "✈️", "🎮", "💰", "💳", "📱"];
+  const icons = [
+    "🏷️",
+    "🛍️",
+    "🚗",
+    "🏠",
+    "🍽️",
+    "💊",
+    "📚",
+    "✈️",
+    "🎮",
+    "💰",
+    "💳",
+    "📱",
+  ];
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700">Name</label>
+        <label className="block text-sm font-semibold text-gray-800 mb-1">
+          Name
+        </label>
         <input
           type="text"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+          className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-violet-500 focus:ring-2 focus:ring-violet-400/30 transition-all text-base px-4 py-2 bg-gray-50"
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Icon</label>
-        <div className="mt-1 grid grid-cols-6 gap-2">
+        <label className="block text-sm font-semibold text-gray-800 mb-1">
+          Icon
+        </label>
+        <div className="mt-2 grid grid-cols-6 gap-2">
           {icons.map((icon) => (
             <button
               key={icon}
               type="button"
               onClick={() => setFormData({ ...formData, icon })}
-              className={`p-2 text-xl rounded-md ${
-                formData.icon === icon ? "bg-primary-100 ring-2 ring-primary-500" : "hover:bg-gray-100"
+              className={`p-2 text-2xl cursor-pointer rounded-lg border transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-violet-400/40 ${
+                formData.icon === icon
+                  ? "bg-violet-50 border-violet-500 ring-2 ring-violet-400"
+                  : "bg-white border-gray-200 hover:bg-gray-100"
               }`}
+              aria-label={`Select icon ${icon}`}
             >
               {icon}
             </button>
@@ -64,16 +84,25 @@ const CategoryForm = ({ onSubmit, initialData = null, onClose }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Color</label>
-        <div className="mt-1 grid grid-cols-4 gap-2">
+        <label className="block text-sm font-semibold text-gray-800 mb-1">
+          Color
+        </label>
+        <div className="mt-2 grid grid-cols-4 gap-2">
           {colors.map((color) => (
             <button
               key={color.bg}
               type="button"
-              onClick={() => setFormData({ ...formData, color: `${color.bg} ${color.text}` })}
-              className={`p-2 rounded-md ${color.bg} ${color.text} ${
-                formData.color === `${color.bg} ${color.text}` ? "ring-2 ring-primary-500" : ""
+              onClick={() =>
+                setFormData({ ...formData, color: `${color.bg} ${color.text}` })
+              }
+              className={`p-2 rounded-lg cursor-pointer font-semibold transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-violet-400/40 ${
+                color.bg
+              } ${color.text} ${
+                formData.color === `${color.bg} ${color.text}`
+                  ? "ring-2 ring-violet-400 border-2 border-violet-500"
+                  : "border border-gray-200 hover:opacity-90"
               }`}
+              aria-label={`Select color ${color.bg}`}
             >
               Sample
             </button>
@@ -82,11 +111,13 @@ const CategoryForm = ({ onSubmit, initialData = null, onClose }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Type</label>
+        <label className="block text-sm font-semibold text-gray-800 mb-1">
+          Type
+        </label>
         <select
           value={formData.type}
           onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+          className="mt-1 block w-full cursor-pointer rounded-lg border border-gray-300 shadow-sm focus:border-violet-500 focus:ring-2 focus:ring-violet-400/30 transition-all text-base px-4 py-2 bg-gray-50"
         >
           <option value="expense">Expense</option>
           <option value="income">Income</option>
@@ -97,13 +128,13 @@ const CategoryForm = ({ onSubmit, initialData = null, onClose }) => {
         <button
           type="button"
           onClick={onClose}
-          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+          className="px-4 py-2 cursor-pointer text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 transition-all"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700"
+          className="px-4 py-2 cursor-pointer text-sm font-semibold text-white bg-violet-600 rounded-lg hover:bg-violet-700 shadow-sm transition-all"
         >
           {initialData ? "Update" : "Create"}
         </button>
@@ -119,13 +150,13 @@ const Categories = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
-  const { 
-    categories, 
-    categoryLoading, 
-    fetchCategories, 
-    addCategory, 
-    updateCategory, 
-    deleteCategory 
+  const {
+    categories,
+    categoryLoading,
+    fetchCategories,
+    addCategory,
+    updateCategory,
+    deleteCategory,
   } = useStore();
 
   useEffect(() => {
@@ -139,8 +170,8 @@ const Categories = () => {
       if (!mobile) setSidebarOpen(true);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleAddCategory = async (formData) => {
@@ -177,7 +208,11 @@ const Categories = () => {
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile} />
+      <Sidebar
+        isOpen={sidebarOpen}
+        toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        isMobile={isMobile}
+      />
 
       <div className="flex-1 flex flex-col overflow-hidden">
         <header className="bg-white shadow-sm z-10">
@@ -188,8 +223,18 @@ const Categories = () => {
                   onClick={() => setSidebarOpen(!sidebarOpen)}
                   className="mr-4 text-gray-500 hover:text-gray-700 focus:outline-none md:hidden"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
                   </svg>
                 </button>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-violet-900 bg-clip-text text-transparent">
@@ -231,12 +276,18 @@ const Categories = () => {
                       <div className="p-4 pb-1">
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center space-x-4">
-                            <div className={`w-12 h-12 rounded-lg ${category.color} flex items-center justify-center text-[3rem]`}>
+                            <div
+                              className={`w-12 h-12 rounded-lg ${category.color} flex items-center justify-center text-[3rem]`}
+                            >
                               {category.icon}
                             </div>
                             <div>
-                              <h3 className="text-[1.1rem] font-semibold text-gray-800">{category.name}</h3>
-                              <p className="text-sm text-gray-500 capitalize">{category.type}</p>
+                              <h3 className="text-[1.1rem] font-semibold text-gray-800">
+                                {category.name}
+                              </h3>
+                              <p className="text-sm text-gray-500 capitalize">
+                                {category.type}
+                              </p>
                             </div>
                           </div>
                           <div className="flex space-x-2">
@@ -247,8 +298,18 @@ const Categories = () => {
                               }}
                               className="text-gray-400 cursor-pointer hover:text-blue-600 transition-colors duration-200"
                             >
-                              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                              <svg
+                                className="w-7 h-7"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                />
                               </svg>
                             </button>
                             <button
@@ -258,8 +319,18 @@ const Categories = () => {
                               }}
                               className="text-gray-400 cursor-pointer hover:text-red-600 transition-colors duration-200"
                             >
-                              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              <svg
+                                className="w-7 h-7"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
                               </svg>
                             </button>
                           </div>
@@ -303,7 +374,8 @@ const Categories = () => {
       >
         <div className="space-y-4">
           <p className="text-gray-500">
-            Are you sure you want to delete this category? This action cannot be undone.
+            Are you sure you want to delete this category? This action cannot be
+            undone.
           </p>
           <div className="flex justify-end space-x-3">
             <button
@@ -328,4 +400,4 @@ const Categories = () => {
   );
 };
 
-export default Categories; 
+export default Categories;
