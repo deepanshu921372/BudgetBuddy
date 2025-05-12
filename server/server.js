@@ -60,7 +60,7 @@ app.get('/api', (req, res) => {
   });
 });
 
-app.post('/send-email', (req, res) => {
+app.post('/api/send-email', (req, res) => {
   const { name, email, subject, message } = req.body;
   
   // Log to help with debugging
