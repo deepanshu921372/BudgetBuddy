@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
       outDir: 'dist',
       sourcemap: true,
       rollupOptions: {
-        external: ['xlsx']
+        external: []
       }
     },
     optimizeDeps: {

@@ -6,9 +6,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
   // Production
-  'https://budgetbuddy-lgty.onrender.com',
-  'https://budgetbuddy-client.vercel.app',
-  'https://budgetbuddy.vercel.app'
+  'https://budgettbuddy.netlify.app'
 ];
 
 // CORS options with proper origin handling
