@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../hooks/useAuth";
 import logo from "../../assets/images/logo2.png";
-import logoText from "../../assets/images/logoText.png";
+import logoText from "../../assets/images/logotext.png";
 
 const Sidebar = ({ isOpen, toggleSidebar, isMobile }) => {
   const location = useLocation();
