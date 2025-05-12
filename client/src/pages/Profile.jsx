@@ -16,7 +16,7 @@ const Profile = () => {
     about: "",
     preferences: {
       emailNotifications: true,
-      monthlyReport: true
+      weeklyReport: true
     }
   });
   const [loading, setLoading] = useState(false);
@@ -44,7 +44,7 @@ const Profile = () => {
         about: currentUser.about || "",
         preferences: {
           emailNotifications: currentUser.preferences?.emailNotifications ?? true,
-          monthlyReport: currentUser.preferences?.monthlyReport ?? true
+          weeklyReport: currentUser.preferences?.weeklyReport ?? true
         }
       });
     }
@@ -280,14 +280,14 @@ const Profile = () => {
                       <div className="flex items-center">
                         <input
                           type="checkbox"
-                          id="monthlyReport"
-                          name="monthlyReport"
-                          checked={formData.preferences.monthlyReport}
+                          id="weeklyReport"
+                          name="weeklyReport"
+                          checked={formData.preferences.weeklyReport}
                           onChange={handleInputChange}
                           className="w-4 h-4 text-violet-600 border-gray-300 rounded focus:ring-violet-500"
                         />
-                        <label htmlFor="monthlyReport" className="ml-2 text-gray-700">
-                          Monthly Expense Report
+                        <label htmlFor="weeklyReport" className="ml-2 text-gray-700">
+                          Weekly Expense Report
                         </label>
                       </div>
                     </div>
