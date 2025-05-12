@@ -124,6 +124,7 @@ const AddTransaction = ({ onClose, onSuccess }) => {
       });
       onSuccess?.();
       onClose?.();
+      window.location.reload();
     } catch (error) {
       toast.error(error.response?.data?.error || 'Failed to add transaction', {
         position: "top-right",

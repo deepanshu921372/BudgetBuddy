@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const CategoryForm = ({ onSubmit, initialData = null, onClose }) => {
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
-    icon: initialData?.icon || "🏷️",
+    icon: initialData?.icon || "💰",
     color: initialData?.color || "bg-blue-100 text-blue-600",
     type: initialData?.type || "expense",
   });
@@ -176,6 +176,9 @@ const Categories = () => {
 
   const handleAddCategory = async (formData) => {
     try {
+      if (!formData.icon) {
+        formData.icon = "💰";
+      }
       await addCategory(formData);
       setModalOpen(false);
       toast.success("Category added successfully!");
@@ -279,7 +282,7 @@ const Categories = () => {
                             <div
                               className={`w-12 h-12 rounded-lg ${category.color} flex items-center justify-center text-[3rem]`}
                             >
-                              {category.icon}
+                              {category.icon || "💰"}
                             </div>
                             <div>
                               <h3 className="text-[1.1rem] font-semibold text-gray-800">

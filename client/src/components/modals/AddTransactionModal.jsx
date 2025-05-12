@@ -7,7 +7,8 @@ const AddTransactionModal = ({ isOpen, onClose, onSubmit, initialData = null, mo
     amount: '',
     description: '',
     category: '',
-    date: new Date().toISOString().split('T')[0]
+    date: new Date().toISOString().split('T')[0],
+    icon: initialData?.icon || '💰'
   });
 
   useEffect(() => {
@@ -17,7 +18,8 @@ const AddTransactionModal = ({ isOpen, onClose, onSubmit, initialData = null, mo
         amount: initialData.amount || '',
         description: initialData.description || '',
         category: initialData.category || '',
-        date: initialData.date ? initialData.date.split('T')[0] : new Date().toISOString().split('T')[0]
+        date: initialData.date ? initialData.date.split('T')[0] : new Date().toISOString().split('T')[0],
+        icon: initialData.icon || '💰'
       });
     } else {
       setFormData({
@@ -25,7 +27,8 @@ const AddTransactionModal = ({ isOpen, onClose, onSubmit, initialData = null, mo
         amount: '',
         description: '',
         category: '',
-        date: new Date().toISOString().split('T')[0]
+        date: new Date().toISOString().split('T')[0],
+        icon: '��'
       });
     }
   }, [initialData, isOpen]);
@@ -63,6 +66,10 @@ const AddTransactionModal = ({ isOpen, onClose, onSubmit, initialData = null, mo
       [e.target.name]: e.target.value
     });
   };
+
+  const icons = [
+    "🏷️", "🛍️", "🚗", "🏠", "🍽️", "💊", "📚", "✈️", "🎮", "💰", "💳", "📱"
+  ];
 
   return (
     <AnimatePresence>
@@ -164,6 +171,28 @@ const AddTransactionModal = ({ isOpen, onClose, onSubmit, initialData = null, mo
                       className="w-full px-3 py-2 cursor-pointer border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200"
                       required
                     />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Icon
+                    </label>
+                    <div className="mt-2 grid grid-cols-6 gap-2">
+                      {icons.map((icon) => (
+                        <button
+                          key={icon}
+                          type="button"
+                          onClick={() => setFormData({ ...formData, icon })}
+                          className={`p-2 text-2xl cursor-pointer rounded-lg border transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-violet-400/40 ${
+                            formData.icon === icon
+                              ? "bg-violet-50 border-violet-500 ring-2 ring-violet-400"
+                              : "bg-white border-gray-200 hover:bg-gray-100"
+                          }`}
+                          aria-label={`Select icon ${icon}`}
+                        >
+                          {icon}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                   <div className="flex justify-end space-x-3 pt-6">
                     <button
