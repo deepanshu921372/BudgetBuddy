@@ -1,8 +1,11 @@
 import axios from "axios";
 
+const baseURL = process.env.REACT_APP_BASE_URL;
+
 // Create an instance of axios
 const api = axios.create({
-  baseURL: "https://budgetbuddy-lgty.onrender.com/api",
+  // baseURL: "https://budgetbuddy-lgty.onrender.com/api",
+  baseURL: baseURL,
   headers: {
     "Content-Type": "application/json"
   },
