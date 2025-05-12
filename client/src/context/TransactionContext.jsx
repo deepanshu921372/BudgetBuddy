@@ -37,8 +37,15 @@ export const TransactionProvider = ({ children }) => {
       setTransactions(res.data);
       setError(null);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to fetch transactions");
+      const errorMessage = err.response?.data?.message || "Failed to fetch transactions";
+      setError(errorMessage);
       console.error("Error fetching transactions:", err);
+
+      // Check for unauthorized error and handle it
+      if (err.response?.status === 401) {
+        console.error("User is not authorized. Please check authentication.");
+        // Optionally, redirect to login or show a message to the user
+      }
     } finally {
       setIsLoading(false);
       isFetching.current = false;

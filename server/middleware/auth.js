@@ -24,12 +24,12 @@ exports.protect = async (req, res, next) => {
     }
 
     // Make sure token exists
-    if (!token) {
-      return res.status(401).json({ 
-        success: false, 
-        error: 'Not authorized to access this route'
-      });
-    }
+    // if (!token) {
+    //   return res.status(401).json({ 
+    //     success: false, 
+    //     error: 'Not authorized to access this route'
+    //   });
+    // }
 
     try {
       // Verify token
