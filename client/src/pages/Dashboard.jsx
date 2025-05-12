@@ -108,7 +108,7 @@ const Dashboard = () => {
                   <option value="all">All Time</option>
                 </select>
                 <button 
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => window.dispatchEvent(new CustomEvent('openAddTransactionModal'))}
                   className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors duration-200 cursor-pointer transform hover:scale-105"
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

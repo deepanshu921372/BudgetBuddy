@@ -99,7 +99,7 @@ const MicButton = () => {
       }
     }
     if (fieldFilled) return;
-    if (text.match(/^add$/) || text.match(/submit/)) {
+    if (text.match(/\badd\b/) || text.match(/submit/)) {
       window.dispatchEvent(new CustomEvent('submitAddTransactionForm'));
       speak('Adding transaction.');
       setResponse('Adding transaction.');
