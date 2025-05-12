@@ -2,7 +2,7 @@ import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vite.dev/config/
+// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   // Load env file based on mode in the current directory
   const env = loadEnv(mode, process.cwd())
@@ -22,15 +22,7 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: 'dist',
-      sourcemap: true,
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom', 'react-router-dom'],
-            ui: ['react-icons', '@headlessui/react', 'framer-motion']
-          }
-        }
-      }
+      sourcemap: true
     },
     optimizeDeps: {
       include: ['firebase/app', 'firebase/auth']
