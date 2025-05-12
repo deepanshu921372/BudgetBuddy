@@ -21,7 +21,7 @@ export const PersistentStateProvider = ({ children }) => {
     return savedState ? JSON.parse(savedState) : {
       lastPath: '/',
       settings: {
-        currency: 'USD',
+        currency: 'INR',
         notifications: {
           weeklyReport: true,
           budgetAlerts: true,
