@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../components/layout/Footer';
 import Navbar from '../components/layout/Navbar';
 
@@ -63,6 +65,37 @@ const HelpCenter = () => {
       action: "Join Forum"
     }
   ];
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = {
+      name: event.target.name.value,
+      email: event.target.email.value,
+      subject: event.target.subject.value,
+      message: event.target.message.value,
+    };
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'There was an error sending your message.');
+      }
+
+      toast.success('Your message has been sent!');
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error(error.message || 'There was an error sending your message.');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50/30 to-pink-50/30">
@@ -154,7 +187,7 @@ const HelpCenter = () => {
             <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
               Still Need Help?
             </h2>
-            <form className="max-w-2xl mx-auto">
+            <form className="max-w-2xl mx-auto" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Name</label>
@@ -205,6 +238,7 @@ const HelpCenter = () => {
       </main>
 
       <Footer />
+      <ToastContainer />
     </div>
   );
 };
