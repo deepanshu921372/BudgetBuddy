@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import Sidebar from "../components/layout/Sidebar";
@@ -160,26 +160,26 @@ const Categories = () => {
     deleteCategory,
   } = useStore();
 
-  const fetchTransactions = async () => {
-    const token = localStorage.getItem("token");
-    
-    if (!token) {
-      console.log("User not logged in, skipping API call.");
-      return;
-    }
+  const fetchTransactions = useCallback(async () => {
+  const token = localStorage.getItem("token");
+  
+  if (!token) {
+    console.log("User not logged in, skipping API call.");
+    return;
+  }
 
-    try {
-      const response = await api.get('/transactions');
-      // Handle the response
-    } catch (error) {
-      console.error("Error fetching transactions:", error);
-    }
-  };
+  try {
+    const response = await api.get('/transactions');
+    // Handle the response
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+  }
+}, []); // Empty dependency array means this function reference won't change
 
-  useEffect(() => {
-    fetchCategories();
-    fetchTransactions();
-  }, [fetchCategories, fetchTransactions]);
+useEffect(() => {
+  fetchCategories();
+  fetchTransactions();
+}, [fetchCategories, fetchTransactions]);
 
   useEffect(() => {
     const handleResize = () => {
