@@ -24,10 +24,13 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import MicButton from "./components/ui/MicButton";
 import AddTransactionModal from "./components/modals/AddTransactionModal";
+import { useTransactions } from "./hooks/useTransactions";
 
 const App = () => {
   const [isGlobalAddModalOpen, setIsGlobalAddModalOpen] = useState(false);
   const [addModalInitialData, setAddModalInitialData] = useState({});
+
+  const { addTransaction } = useTransactions();
 
   useEffect(() => {
     const openModal = (e) => {
@@ -41,9 +44,10 @@ const App = () => {
   }, []);
 
   const handleAddTransaction = (transactionData) => {
+    console.log("handleAddTransaction", transactionData);
+    addTransaction(transactionData);
     setIsGlobalAddModalOpen(false);
     setAddModalInitialData({});
-    // Optionally, trigger a global event or use context to update transactions
   };
 
   return (

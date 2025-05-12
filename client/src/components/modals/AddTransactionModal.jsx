@@ -50,9 +50,11 @@ const AddTransactionModal = ({ isOpen, onClose, onSubmit, initialData = null, mo
   }, [isOpen]);
 
   const handleSubmit = (e) => {
+    console.log(formData);
     e.preventDefault();
     onSubmit(formData);
     onClose();
+    console.log("submitted");
   };
 
   const handleChange = (e) => {
