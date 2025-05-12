@@ -21,6 +21,9 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'dist',
       sourcemap: true,
+      rollupOptions: {
+        external: ['xlsx']
+      }
     },
     optimizeDeps: {
       include: ['firebase/app', 'firebase/auth'],
