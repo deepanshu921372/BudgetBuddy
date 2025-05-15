@@ -261,7 +261,7 @@ const Profile = () => {
                   </div>
 
                   {/* Preferences */}
-                  <div>
+                  {/* <div>
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">Preferences</h2>
                     <div className="space-y-4">
                       <div className="flex items-center">
@@ -291,7 +291,7 @@ const Profile = () => {
                         </label>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </motion.div>
